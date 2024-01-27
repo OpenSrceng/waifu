@@ -35,7 +35,7 @@ def get_waifulib_by_path(path):
 	if not os.path.isabs(path):
 		path = os.path.abspath(path)
 	
-	waifulib = os.path.join(path, 'scripts', 'waifulib')
+	waifulib = os.path.join(path, 'waf_scripts')
 	if os.path.isdir(waifulib):
 		return waifulib
 	return None
