@@ -145,6 +145,12 @@ def get_optimization_flags(conf):
 	if conf.options.POLLY:
 		cflags    += conf.get_flags_by_compiler(POLLY_CFLAGS, conf.env.COMPILER_CC)
 
+	if conf.options.BUILD_TYPE == 'debug':
+		conf.define('_DEBUG', True)
+		conf.define('DEBUG', True)
+	else:
+		conf.define('NDEBUG', True)
+
 	if conf.env.COMPILER_CC != 'msvc':
 		# TODO: fix DEST_CPU in force 32 bit mode
 		if conf.env.DEST_CPU == 'x86' or (conf.env.DEST_CPU == 'x86_64' and conf.env.DEST_SIZEOF_VOID_P == 4):

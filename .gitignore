@@ -3,5 +3,4 @@ build*/*
 .lock*
 *.pyc
 *.sln
-waf-ext
-waf-noext
+waf
