@@ -35,7 +35,7 @@ VALID_BUILD_TYPES = ['fast', 'release', 'debug', 'sanitize']
 LINKFLAGS = {
 	'common': {
 		'msvc':  ['/DEBUG'], # always create PDB, doesn't affect result binaries
-		'gcc':   ['-Wl,--no-undefined'],
+		'gcc':   ['-Wl,--no-undefined', '-static-libgcc'],
 		'clang': ['-Wl,--no-undefined', '-fuse-ld=lld']
 	},
 	'sanitize': {
@@ -154,9 +154,12 @@ def get_optimization_flags(conf):
 	if conf.env.COMPILER_CC != 'msvc':
 		# TODO: fix DEST_CPU in force 32 bit mode
 		if conf.env.DEST_CPU == 'x86' or (conf.env.DEST_CPU == 'x86_64' and conf.env.DEST_SIZEOF_VOID_P == 4):
-			cflags.append('-march=prescott')
+			cflags.append('-march=pentium4')
 		elif conf.env.DEST_CPU == 'x86_64':
-			cflags.append('-march=haswell')
+			cflags.append('-march=nocona')
+
+		if conf.env.DEST_CPU in ['x86', 'x86_64']:
+			cflags.append('-mtune=core2')
 
 	# on all compilers (except MSVC?) we need to copy CFLAGS to LINKFLAGS
 	if conf.options.LTO and conf.env.COMPILER_CC != 'msvc':
