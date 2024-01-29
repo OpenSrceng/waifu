@@ -159,7 +159,7 @@ def get_optimization_flags(conf):
 			cflags.append('-march=nocona')
 
 		if conf.env.DEST_CPU in ['x86', 'x86_64']:
-			cflags.append('-mtune=core2')
+			cflags.append('-mtune=haswell')
 
 	# on all compilers (except MSVC?) we need to copy CFLAGS to LINKFLAGS
 	if conf.options.LTO and conf.env.COMPILER_CC != 'msvc':
