@@ -5,7 +5,7 @@ PRELUDE=$'\tContext.WAIFUVERSION=\'1.1.0\'\n\tsys.path.insert(0, os.path.join(os
 
 # a set of relatively stable tools
 # TODO: make it possible to override this list
-WAIFU_TOOLS="gitversion,reconfigure,msdev,fwgslib,cxx11,force_32bit,subproject,strip_on_install,sdl2,enforce_pic,pthread,compiler_optimizations"
+WAIFU_TOOLS="gitversion,reconfigure,msdev,fwgslib,force_32bit,subproject,strip_on_install,enforce_pic,pthread,compiler_optimizations"
 
 get_waifu_tools()
 {
