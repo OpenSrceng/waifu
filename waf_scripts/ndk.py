@@ -31,14 +31,18 @@ def configure(conf):
 
 		ndk_toolchain_path = os.path.abspath(conf.options.NDK_PATH)
 
-		if conf.env.DEST_OS != 'linux':
-			Logs.error('ERROR: NDK only support linux so implete me')
-
 		# Android API 28 ( Android 9 ) ( support iconv and vulkan1.1 )
-		conf.env.CC				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang'
-		conf.env.CXX			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang++'
-		conf.env.AR				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar'
-		conf.env.STRIP			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip'
+		if conf.env.DEST_OS == 'linux':
+			conf.env.CC				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang'
+			conf.env.CXX			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang++'
+			conf.env.AR				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar'
+			conf.env.STRIP			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip'
+		elif conf.env.DEST_OS == 'win32':
+			conf.env.CC				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android28-clang.cmd'
+			conf.env.CXX			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android28-clang++.cmd'
+			conf.env.AR				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe'
+			conf.env.STRIP			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-strip.exe'
+
 		conf.env.COMPILER_CC	= 'clang'
 		conf.env.DEST_OS		= 'android'
 		conf.env.DEST_CPU		= 'aarch64'
