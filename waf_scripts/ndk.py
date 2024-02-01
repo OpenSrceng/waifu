@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-from waflib import Configure, Logs
+from waflib import Configure, Logs, Utils
 import os.path
 
 @Configure.conf
@@ -26,24 +26,22 @@ def configure(conf):
 	if conf.options.NDK:
 		Logs.info('INFO: will build for android ndk')
 
-		if conf.check_32bit():
-			Logs.error('ERROR: didn\'t support 32bits for android ndk')
-
 		ndk_toolchain_path = os.path.abspath(conf.options.NDK_PATH)
 
 		# Android API 28 ( Android 9 ) ( support iconv and vulkan1.1 )
-		if conf.env.DEST_OS == 'linux':
+		if Utils.unversioned_sys_platform() == 'linux':
 			conf.env.CC				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang'
 			conf.env.CXX			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang++'
 			conf.env.AR				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar'
 			conf.env.STRIP			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip'
-		elif conf.env.DEST_OS == 'win32':
+		elif Utils.unversioned_sys_platform() == 'win32':
 			conf.env.CC				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android28-clang.cmd'
 			conf.env.CXX			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android28-clang++.cmd'
 			conf.env.AR				= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe'
 			conf.env.STRIP			= ndk_toolchain_path + '/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-strip.exe'
 
 		conf.env.COMPILER_CC	= 'clang'
+		conf.env.COMPILER_CXX	= 'clang++'
 		conf.env.DEST_OS		= 'android'
 		conf.env.DEST_CPU		= 'aarch64'
 		conf.env.DEST_FMT		= 'elf'
