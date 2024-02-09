@@ -152,14 +152,8 @@ def get_optimization_flags(conf):
 		conf.define('NDEBUG', True)
 
 	if conf.env.COMPILER_CC != 'msvc':
-		# TODO: fix DEST_CPU in force 32 bit mode
-		if conf.env.DEST_CPU == 'x86' or (conf.env.DEST_CPU == 'x86_64' and conf.env.DEST_SIZEOF_VOID_P == 4):
-			cflags.append('-march=pentium4')
-		elif conf.env.DEST_CPU == 'x86_64':
-			cflags.append('-march=nocona')
-
 		if conf.env.DEST_CPU in ['x86', 'x86_64']:
-			cflags.append('-mtune=haswell')
+			cflags.append('-march=haswell')
 
 	# on all compilers (except MSVC?) we need to copy CFLAGS to LINKFLAGS
 	if conf.options.LTO and conf.env.COMPILER_CC != 'msvc':
